@@ -1,0 +1,137 @@
+:root {
+  --bg: #0b1020;
+  --card: #111727;
+  --accent: #3b82f6;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --radius: 14px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hq-dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #0b1020;
+  color: #e5e7eb;
+  font-family: system-ui, sans-serif;
+}
+
+.hq-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111727;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.hq-logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.hq-menu button {
+  background: none;
+  border: none;
+  color: #e5e7eb;
+  margin: 0 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.hq-exit {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hq-main {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  gap: 20px;
+}
+
+.hq-lead-form {
+  flex: 1;
+  background: #111727;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hq-lead-form input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #0b1020;
+  color: white;
+}
+
+.hq-button-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.hq-button-row button {
+  flex: 1;
+  margin: 0 4px;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+}
+
+.hq-lead-table {
+  flex: 2;
+  background: #111727;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.hq-lead-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.hq-lead-table th,
+.hq-lead-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  text-align: left;
+}
+
+.hq-lead-table tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.hq-status-bar {
+  background: #111727;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+}

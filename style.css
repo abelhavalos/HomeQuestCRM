@@ -1,0 +1,296 @@
+:root {
+  --hq-bg: #0b1020;
+  --hq-card: #111727;
+  --hq-accent: #3b82f6;
+  --hq-accent-soft: rgba(59, 130, 246, 0.12);
+  --hq-danger: #ef4444;
+  --hq-success: #22c55e;
+  --hq-text: #e5e7eb;
+  --hq-muted: #9ca3af;
+  --hq-border: #1f2937;
+  --hq-radius-lg: 18px;
+  --hq-radius-md: 10px;
+  --hq-shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.65);
+  --hq-transition: 180ms ease-out;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+  color: var(--hq-text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hq-wrapper {
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+}
+
+.hq-card {
+  background: linear-gradient(145deg, #020617 0, #020617 40%, #020617 100%);
+  border-radius: var(--hq-radius-lg);
+  padding: 24px 24px 18px;
+  box-shadow: var(--hq-shadow-soft);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.hq-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.18), transparent 50%),
+    radial-gradient(circle at 100% 0, rgba(16, 185, 129, 0.2), transparent 55%),
+    radial-gradient(circle at 10% 100%, rgba(168, 85, 247, 0.18), transparent 45%);
+  opacity: 0.35;
+  z-index: 0;
+}
+
+.hq-brand,
+.hq-form,
+.hq-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.hq-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.hq-logo-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 0, #bfdbfe, #3b82f6 45%, #1e40af 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #e5e7eb;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.7);
+}
+
+.hq-brand-text h1 {
+  font-size: 1.3rem;
+  margin: 0 0 2px;
+}
+
+.hq-brand-text p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--hq-muted);
+}
+
+.hq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.hq-tabs {
+  display: inline-flex;
+  padding: 3px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  margin-bottom: 4px;
+}
+
+.hq-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--hq-muted);
+  font-size: 0.78rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color var(--hq-transition), color var(--hq-transition),
+    box-shadow var(--hq-transition), transform 80ms ease-out;
+}
+
+.hq-tab.active {
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.45), 0 8px 18px rgba(15, 23, 42, 0.7);
+  transform: translateY(-0.5px);
+}
+
+.hq-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.hq-field label {
+  font-size: 0.78rem;
+  color: var(--hq-muted);
+}
+
+.hq-field input {
+  padding: 9px 11px;
+  border-radius: var(--hq-radius-md);
+  border: 1px solid var(--hq-border);
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--hq-text);
+  font-size: 0.84rem;
+  outline: none;
+  transition: border-color var(--hq-transition), box-shadow var(--hq-transition),
+    background-color var(--hq-transition), transform 80ms ease-out;
+}
+
+.hq-field input::placeholder {
+  color: #6b7280;
+}
+
+.hq-field input:focus {
+  border-color: rgba(59, 130, 246, 0.85);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6), 0 0 0 8px rgba(37, 99, 235, 0.18);
+  background: #020617;
+  transform: translateY(-0.5px);
+}
+
+.hq-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.hq-remember {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.74rem;
+  color: var(--hq-muted);
+}
+
+.hq-remember input {
+  width: 13px;
+  height: 13px;
+  accent-color: var(--hq-accent);
+}
+
+.hq-link-btn {
+  border: none;
+  background: transparent;
+  color: var(--hq-accent);
+  font-size: 0.74rem;
+  cursor: pointer;
+  padding: 2px 0;
+  text-decoration: none;
+  transition: color var(--hq-transition);
+}
+
+.hq-link-btn:hover {
+  color: #93c5fd;
+}
+
+.hq-primary-btn {
+  margin-top: 10px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: none;
+  background: radial-gradient(circle at 0 0, #93c5fd, #2563eb 35%, #1d4ed8 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.86rem;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.55);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 80ms ease-out, box-shadow var(--hq-transition), filter var(--hq-transition);
+}
+
+.hq-primary-btn:hover {
+  filter: brightness(1.02);
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.7);
+  transform: translateY(-1px);
+}
+
+.hq-primary-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.6);
+}
+a {
+  border: none;
+  background: transparent;
+  color: var(--hq-accent);
+  font-size: 0.74rem;
+  cursor: pointer;
+  padding: 2px 0;
+  text-decoration: none;
+  transition: color var(--hq-transition);
+}
+
+.a:hover {
+  color: #93c5fd;
+}
+.hq-hint {
+  margin: 8px 0 0;
+  font-size: 0.74rem;
+  color: var(--hq-muted);
+}
+
+.hq-error,
+.hq-success {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  min-height: 18px;
+}
+
+.hq-error {
+  color: var(--hq-danger);
+}
+
+.hq-success {
+  color: var(--hq-success);
+}
+
+.hq-footer {
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(15, 23, 42, 0.75);
+  font-size: 0.72rem;
+  color: #64748b;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hq-message {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .hq-card {
+    padding: 20px 16px 14px;
+  }
+
+  .hq-brand-text h1 {
+    font-size: 1.15rem;
+  }
+}
+
