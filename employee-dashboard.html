@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HomeQuest CRM – Employee Dashboard</title>
+  <link rel="stylesheet" href="styles/dashboard.css" />
+  <script src="scripts/dashboard.js"></script>
+</head>
+
+<body>
+  <div class="hq-dashboard">
+
+    <!-- ========================= -->
+    <!-- TOP BAR -->
+    <!-- ========================= -->
+    <header class="hq-topbar">
+      <div class="hq-logo">HQ</div>
+
+      <nav class="hq-menu">
+        <button>Dashboard</button>
+        <button>Leads</button>
+        <button>Tasks</button>
+        <button>Profile</button>
+      </nav>
+
+      <button class="hq-exit" onclick="window.location.href='index.html'">EXIT</button>
+    </header>
+
+    <!-- ========================= -->
+    <!-- MAIN CONTENT AREA -->
+    <!-- ========================= -->
+    <div class="hq-main">
+
+      <!-- ========================= -->
+      <!-- LEFT: LEAD FORM -->
+      <!-- ========================= -->
+      <section class="hq-lead-form">
+        <h2>Lead Form</h2>
+
+        <input type="text" id="FullName" placeholder="FullName" />
+        <input type="email" id="Email" placeholder="Email" />
+        <input type="text" id="Phone" placeholder="Phone" />
+        <input type="text" id="Source" placeholder="Source" />
+
+        <select id="Status">
+          <option value="New">New</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Working">Working</option>
+          <option value="Closed">Closed</option>
+        </select>
+
+        <div class="hq-button-row">
+          <button id="saveNewLead">Add</button>
+          <button id="updateLead">Update</button>
+          <button id="deleteLead">Delete</button>
+          <button id="searchLead">Search</button>
+          <button id="clearLead">Clear</button>
+        </div>
+      </section>
+
+      <!-- ========================= -->
+      <!-- RIGHT: LEAD TABLE -->
+      <!-- ========================= -->
+      <section class="hq-lead-table">
+        <h2>Lead Table</h2>
+
+        <table class="hq-table">
+          <thead>
+            <tr>
+              <th>FullName</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Source</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="leadsBody">
+            <!-- Leads injected by JS -->
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- STATUS BAR -->
+    <!-- ========================= -->
+    <footer class="hq-status-bar">
+      <span>Status: Connected · All systems normal</span>
+    </footer>
+
+  </div>
+</body>
+</html>

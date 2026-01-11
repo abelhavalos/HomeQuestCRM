@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HomeQuest CRM – Secure Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+  <div class="hq-wrapper">
+    <div class="hq-card">
+      <header class="hq-brand">
+        <div class="hq-logo-circle">HQ</div>
+        <div class="hq-brand-text">
+          <h1>HomeQuest CRM</h1>
+          <p>Employee & Manager Secure Access</p>
+        </div>
+      </header>
+
+      <form id="loginForm" class="hq-form" autocomplete="off" novalidate>
+        <div class="hq-tabs" role="tablist">
+          <button type="button" class="hq-tab active" data-role="employee" role="tab" aria-selected="true">
+            Employee
+          </button>
+          <button type="button" class="hq-tab" data-role="manager" role="tab" aria-selected="false">
+            Manager
+          </button>
+        </div>
+
+        <input type="hidden" id="role" name="role" value="employee" />
+
+        <div class="hq-field">
+          <label for="email">Work email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@homequest.com"
+            autocomplete="username"
+            required
+          />
+        </div>
+
+        <div class="hq-field">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          />
+        </div>
+
+        <div class="hq-meta">
+          <div class="hq-remember">
+            <input type="checkbox" id="rememberMe" />
+            <label for="rememberMe">Remember this device</label>
+          </div>
+
+          <!--<button type="button" class="hq-link-btn" id="forgotPasswordBtn">
+            Forgot access?
+          </button>-->
+         <a href="forgot-access.html" class="hq-forgot-link">Forgot access?</a>
+        </div>
+
+        <button type="submit" class="hq-primary-btn">
+          Continue to HomeQuest
+        </button>
+        <p id="loginMessage" class="hq-message"></p>
+        <p class="hq-hint" id="roleHint">
+          You are signing in as <strong>Employee</strong>. Managers use the Manager tab.
+        </p>
+
+        <p class="hq-error" id="errorMessage" aria-live="polite"></p>
+        <p class="hq-success" id="successMessage" aria-live="polite"></p>
+      </form>
+
+      <footer class="hq-footer">
+        <span>Internal use only · Access is monitored</span>
+      </footer>
+    </div>
+  </div>
+
+  <script src="scripts/app.js"></script>
+</body>
+</html>
