@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbz3GahBLJn2z5SiIZ8Lew86ps3Fj8QuAZyoHHrxfhmPc3BgRaibv-2acalz4v45_ODf3g/exec";
+  "https://script.google.com/macros/s/AKfycbwNNFPfDM3s9iYqET9YNm5mUc-SmHc9qU2rIQpT7VxfqeRvj0_P4kU5OTT1P75iwHjIOA/exec";
 
 let currentLeadID = null;
 let allLeads = [];
@@ -25,9 +25,8 @@ let filteredLeads = [];
 let currentPage = 1;
 let pageSize = 10;
 
-
 // ======================================================
-// LOAD LEADS
+// LOAD LEADS (EMPLOYEE VERSION)
 // ======================================================
 async function loadLeads(email, role) {
   try {
@@ -36,9 +35,9 @@ async function loadLeads(email, role) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action: "getLeads",
-        email,
         role,
-      }),
+        email
+      })
     });
 
     const result = await response.json();
@@ -48,12 +47,13 @@ async function loadLeads(email, role) {
       filteredLeads = [...allLeads];
       currentPage = 1;
       renderPaginated();
+    } else {
+      console.error("Backend error:", result.message);
     }
   } catch (err) {
     console.error("Network error:", err);
   }
 }
-
 
 // ======================================================
 // PAGINATION CONTROLLER
@@ -68,9 +68,8 @@ function renderPaginated() {
   renderPaginationControls();
 }
 
-
 // ======================================================
-// RENDER LEADS
+// RENDER LEADS TABLE
 // ======================================================
 function renderLeads(leads) {
   const tbody = document.getElementById("leadsBody");
@@ -85,19 +84,25 @@ function renderLeads(leads) {
       <td>${lead.Phone || ""}</td>
       <td>${lead.Source || ""}</td>
       <td>${lead.Status || ""}</td>
-      <td>
-        <button class="edit-btn" data-id="${lead.LeadID}">Edit</button>
-      </td>
+      <td><button class="edit-btn">Edit</button></td>
     `;
 
-    row.querySelector(".edit-btn").addEventListener("click", () => {
+    // Row click selects lead
+    row.addEventListener("click", () => {
+      currentLeadID = lead.LeadID;
+      loadLeadIntoForm(lead);
+    });
+
+    // Edit button (prevent row click bubbling)
+    row.querySelector(".edit-btn").addEventListener("click", (event) => {
+      event.stopPropagation();
+      currentLeadID = lead.LeadID;
       loadLeadIntoForm(lead);
     });
 
     tbody.appendChild(row);
   });
 }
-
 
 // ======================================================
 // PAGINATION BUTTONS
@@ -118,7 +123,6 @@ function renderPaginationControls() {
 
   const totalPages = Math.ceil(filteredLeads.length / pageSize);
 
-  // Prev button
   const prev = document.createElement("button");
   prev.textContent = "Prev";
   prev.disabled = currentPage === 1;
@@ -128,7 +132,6 @@ function renderPaginationControls() {
   };
   container.appendChild(prev);
 
-  // Page numbers
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement("button");
     btn.textContent = i;
@@ -140,7 +143,6 @@ function renderPaginationControls() {
     container.appendChild(btn);
   }
 
-  // Next button
   const next = document.createElement("button");
   next.textContent = "Next";
   next.disabled = currentPage === totalPages;
@@ -150,7 +152,6 @@ function renderPaginationControls() {
   };
   container.appendChild(next);
 }
-
 
 // ======================================================
 // LOAD LEAD INTO FORM
@@ -164,7 +165,6 @@ function loadLeadIntoForm(lead) {
   document.getElementById("Source").value = lead.Source || "";
   document.getElementById("Status").value = lead.Status || "New";
 }
-
 
 // ======================================================
 // ADD LEAD
@@ -214,7 +214,6 @@ async function addLead() {
   }
 }
 
-
 // ======================================================
 // UPDATE LEAD
 // ======================================================
@@ -260,7 +259,6 @@ async function updateLead() {
   }
 }
 
-
 // ======================================================
 // DELETE LEAD
 // ======================================================
@@ -294,9 +292,8 @@ async function deleteLead() {
   }
 }
 
-
 // ======================================================
-// MULTI-FIELD SEARCH
+// SEARCH LEADS
 // ======================================================
 function searchLeads() {
   const qName = document.getElementById("FullName").value.trim().toLowerCase();
@@ -318,7 +315,6 @@ function searchLeads() {
   currentPage = 1;
   renderPaginated();
 }
-
 
 // ======================================================
 // CLEAR FORM

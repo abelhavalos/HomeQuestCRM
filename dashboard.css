@@ -135,3 +135,157 @@ body {
   color: var(--muted);
   border-top: 1px solid rgba(148, 163, 184, 0.25);
 }
+
+/* ============================
+   PANELS
+============================ */
+
+.hq-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* ============================
+   NAVBAR
+============================ */
+
+.hq-navbar {
+  display: flex;
+  gap: 10px;
+  background: #1a1a1a;
+  padding: 10px 20px;
+  border-bottom: 1px solid #333;
+}
+
+.hq-nav-btn {
+  background: #2a2a2a;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.hq-nav-btn:hover {
+  background: #3a3a3a;
+}
+
+.hq-nav-btn.active {
+  background: #4a4a4a;
+  font-weight: bold;
+}
+
+/* ============================
+   FORM
+============================ */
+
+.hq-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.hq-button-row {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+}
+
+.hq-button-row button {
+  flex: 1;
+}
+
+/* ============================
+   TABLE
+============================ */
+
+.hq-table-container {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.hq-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hq-table th,
+.hq-table td {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.hq-table th {
+  text-align: left;
+  background: #2a2a2a;
+}
+
+.hq-table tr:hover {
+  background: #2a2a2a;
+}
+
+/* ============================
+   PAGINATION
+============================ */
+
+.hq-pagination {
+  margin-top: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.hq-pagination button {
+  padding: 6px 12px;
+  background: #2a2a2a;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.hq-pagination button:hover {
+  background: #3a3a3a;
+}
+
+.hq-pagination button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Restore two-column layout */
+.hq-panel {
+  display: flex;
+  flex-direction: row;   /* LEFT–RIGHT layout */
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Left side form */
+.hq-form {
+  flex: 1;
+  max-width: 400px;      /* Keeps form narrow and clean */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Right side table */
+.hq-table-container {
+  flex: 2;               /* Table gets more space */
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+}

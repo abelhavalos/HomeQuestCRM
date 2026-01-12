@@ -3,119 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <title>HomeQuest CRM – Manager Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css" />
-  <script src="manager-dashboard.js"></script>
+  <link rel="stylesheet" href="styles/dashboard.css" />
+  <script defer src="scripts/manager-dashboard.js"></script>
 </head>
 
 <body>
   <div class="hq-dashboard">
 
+    <!-- ========================= -->
+    <!-- TOP BAR -->
+    <!-- ========================= -->
     <header class="hq-topbar">
       <div class="hq-logo">HQ</div>
 
       <nav class="hq-menu">
-        <button>Dashboard</button>
-        <button>Leads</button>
-        <button>Employees</button>
-        <button>Reports</button>
+        <button id="navLeads">Leads</button>
+        <button id="navEmployees">Employees</button>
       </nav>
 
       <button class="hq-exit" onclick="window.location.href='index.html'">EXIT</button>
     </header>
 
+    <!-- ========================= -->
+    <!-- MAIN CONTENT AREA -->
+    <!-- ========================= -->
     <div class="hq-main">
 
-      <!-- LEFT: Lead Form -->
-      <section class="hq-lead-form">
-        <h2>Lead Form</h2>
+      <!-- ========================= -->
+      <!-- LEADS PANEL (DEFAULT) -->
+      <!-- ========================= -->
+      <section id="leadPanel" style="display:flex; width:100%;">
 
-        <input type="text" id="FullName" placeholder="FullName" />
-        <input type="email" id="Email" placeholder="Email" />
-        <input type="text" id="Phone" placeholder="Phone" />
-        <input type="text" id="Source" placeholder="Source" />
+        <!-- LEFT: LEAD FORM -->
+        <section class="hq-lead-form">
+          <h2>Lead Form</h2>
 
-        <select id="Status">
-          <option value="New">New</option>
-          <option value="Contacted">Contacted</option>
-          <option value="Working">Working</option>
-          <option value="Closed">Closed</option>
-        </select>
+          <input type="text" id="FullName" placeholder="FullName" />
+          <input type="email" id="Email" placeholder="Email" />
+          <input type="text" id="Phone" placeholder="Phone" />
+          <input type="text" id="Source" placeholder="Source" />
 
-        <h3>Assigned To</h3>
-        <select id="AssignedTo"></select>
+          <select id="Status">
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Working">Working</option>
+            <option value="Closed">Closed</option>
+          </select>
 
-        <div class="hq-button-row">
-          <button id="saveNewLead">Add</button>
-          <button id="updateLead">Update</button>
-          <button id="deleteLead">Delete</button>
-          <button id="searchLead">Search</button>
-          <button id="clearLead">Clear</button>
-        </div>
+          <select id="AssignedTo"></select>
+
+          <div class="hq-button-row">
+            <button id="saveNewLead">Add</button>
+            <button id="updateLead">Update</button>
+            <button id="deleteLead">Delete</button>
+            <button id="searchLead">Search</button>
+            <button id="clearLead">Clear</button>
+          </div>
+        </section>
+
+        <!-- RIGHT: LEAD TABLE -->
+        <section class="hq-lead-table">
+          <h2>Lead Table</h2>
+
+          <table class="hq-table">
+            <thead>
+              <tr>
+                <th>FullName</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>AssignedTo</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody id="leadTableBody"></tbody>
+          </table>
+
+          <div id="leadPagination"></div>
+        </section>
+
       </section>
 
-      <!-- RIGHT: Lead Table -->
-      <section class="hq-lead-table">
-        <h2>All Leads</h2>
+      <!-- ========================= -->
+      <!-- EMPLOYEES PANEL -->
+      <!-- ========================= -->
+      <section id="employeePanel" style="display:none; width:100%;">
 
-        <table class="hq-table">
-          <thead>
-            <tr>
-              <th>FullName</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Source</th>
-              <th>Status</th>
-              <th>AssignedTo</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+        <!-- LEFT: EMPLOYEE FORM -->
+        <section class="hq-lead-form">
+          <h2>Employee Form</h2>
 
-          <tbody id="leadsBody"></tbody>
-        </table>
+          <input type="text" id="EmpFullName" placeholder="Full Name" />
+          <input type="email" id="EmpEmail" placeholder="Email" />
+          <input type="text" id="EmpRole" placeholder="Role (employee/manager)" />
+          <input type="text" id="EmpStatus" placeholder="Status (active/inactive)" />
 
-        <div id="pagination"></div>
+          <div class="hq-button-row">
+            <button id="addEmployeeBtn">Add</button>
+            <button id="updateEmployeeBtn">Update</button>
+            <button id="deleteEmployeeBtn">Delete</button>
+            <button id="searchEmployeeBtn">Search</button>
+            <button id="clearEmployeeBtn">Clear</button>
+          </div>
+        </section>
+
+        <!-- RIGHT: EMPLOYEE TABLE -->
+        <section class="hq-lead-table">
+          <h2>Employee Table</h2>
+
+          <table class="hq-table">
+            <thead>
+              <tr>
+                <th>FullName</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody id="employeeTableBody"></tbody>
+          </table>
+
+          <div id="employeePagination"></div>
+        </section>
+
       </section>
-<section id="employeePanel" class="hq-employee-panel" style="display:none;">
 
-  <h2>Employees</h2>
-
-  <div class="hq-employee-form">
-    <input type="text" id="EmpFullName" placeholder="Full Name" />
-    <input type="email" id="EmpEmail" placeholder="Email" />
-    <input type="text" id="EmpRole" placeholder="Role (employee/manager)" />
-    <input type="text" id="EmpStatus" placeholder="Status (active/inactive)" />
-
-    <div class="hq-button-row">
-      <button id="addEmployeeBtn">Add</button>
-      <button id="updateEmployeeBtn">Update</button>
-      <button id="deleteEmployeeBtn">Delete</button>
-      <button id="searchEmployeeBtn">Search</button>
-      <button id="clearEmployeeBtn">Clear</button>
-    </div>
-  </div>
-
-  <div class="hq-employee-table">
-    <table class="hq-table">
-      <thead>
-        <tr>
-          <th>Full Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="employeeTableBody"></tbody>
-    </table>
-
-    <div id="employeePagination"></div>
-  </div>
-
-</section>
     </div>
 
+    <!-- ========================= -->
+    <!-- STATUS BAR -->
+    <!-- ========================= -->
     <footer class="hq-status-bar">
-      <span>Status: Manager Mode · Full Access</span>
+      <span>Status: Manager Mode</span>
     </footer>
 
   </div>

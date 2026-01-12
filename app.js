@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorMessage = document.getElementById("errorMessage");
   const successMessage = document.getElementById("successMessage");
   const loginMessage = document.getElementById("loginMessage");loginMessage.textContent = "";
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz3GahBLJn2z5SiIZ8Lew86ps3Fj8QuAZyoHHrxfhmPc3BgRaibv-2acalz4v45_ODf3g/exec"; // <-- update this
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwNNFPfDM3s9iYqET9YNm5mUc-SmHc9qU2rIQpT7VxfqeRvj0_P4kU5OTT1P75iwHjIOA/exec"; // <-- update this
 
   // -----------------------------
   // ROLE TAB SWITCHING
