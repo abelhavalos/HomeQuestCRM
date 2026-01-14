@@ -93,9 +93,6 @@ function populateAssignedToDropdown() {
 // =====================================
 // LOAD LEADS
 // =====================================
-// =====================================
-// LOAD LEADS
-// =====================================
 async function loadLeads() {
   try {
     const url = `${WEB_APP_URL}?action=getLeads`;
@@ -104,7 +101,7 @@ async function loadLeads() {
     const result = await response.json();
 
     if (result.success) {
-      allLeads = result.leads;
+      allLeads = Array.isArray(result.leads) ? result.leads : [];
       filteredLeads = [...allLeads];
       leadPage = 1;
       renderLeadPaginated();
@@ -117,6 +114,9 @@ async function loadLeads() {
   }
 }
 
+// =====================================
+// LOAD EMPLOYEES
+// =====================================
 async function loadEmployees() {
   try {
     const url = `${WEB_APP_URL}?action=getEmployees`;
@@ -125,7 +125,7 @@ async function loadEmployees() {
     const result = await response.json();
 
     if (result.success) {
-      employees = result.employees;
+      employees = Array.isArray(result.employees) ? result.employees : [];
       renderEmployees();
     } else {
       console.error("Backend error:", result.message);
@@ -170,6 +170,7 @@ function renderLeadTable(list) {
     tbody.appendChild(row);
   });
 }
+
 function renderLeadPaginated() {
   const start = (leadPage - 1) * leadPageSize;
   const end = start + leadPageSize;
