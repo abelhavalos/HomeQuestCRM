@@ -30,10 +30,9 @@ let pageSize = 10;
 // ======================================================
 async function loadLeads(email, role) {
   try {
-    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+    const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(email)}&role=${encodeURIComponent(role)}`;
 
     const response = await fetch(url);
-    const result = await response.json();
     const result = await response.json();
 
     if (result.success) {
@@ -184,25 +183,26 @@ async function addLead() {
     Source,
     Status,
     AssignedTo,
-    Notes: "",
+    Notes: ""
   };
 
   try {
-    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+    const url = `${WEB_APP_URL}?action=addLead&leadData=${encodeURIComponent(JSON.stringify(leadData))}`;
 
-const response = await fetch(url);
-const result = await response.json();
+    const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
       clearForm();
       loadLeads(AssignedTo, sessionStorage.getItem("hq_role"));
+    } else {
+      console.error("Backend error:", result.message);
     }
+
   } catch (err) {
     console.error("Network error:", err);
   }
 }
-
 // ======================================================
 // UPDATE LEAD
 // ======================================================
@@ -223,26 +223,29 @@ async function updateLead() {
     Email,
     Phone,
     Source,
-    Status,
+    Status
   };
 
   try {
-    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+    const url = `${WEB_APP_URL}?action=updateLead&leadId=${encodeURIComponent(currentLeadID)}&leadData=${encodeURIComponent(JSON.stringify(leadData))}`;
 
-const response = await fetch(url);
-const result = await response.json();
-
+    const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
       clearForm();
-      loadLeads(sessionStorage.getItem("hq_email"), sessionStorage.getItem("hq_role"));
+      loadLeads(
+        sessionStorage.getItem("hq_email"),
+        sessionStorage.getItem("hq_role")
+      );
+    } else {
+      console.error("Backend error:", result.message);
     }
+
   } catch (err) {
     console.error("Network error:", err);
   }
 }
-
 // ======================================================
 // DELETE LEAD
 // ======================================================
@@ -256,24 +259,27 @@ async function deleteLead() {
   if (!confirmDelete) return;
 
   try {
-    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+    const url = `${WEB_APP_URL}?action=deleteLead&leadId=${encodeURIComponent(currentLeadID)}`;
 
-const response = await fetch(url);
-const result = await response.json();
-
+    const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
       clearForm();
-      loadLeads(sessionStorage.getItem("hq_email"), sessionStorage.getItem("hq_role"));
+      loadLeads(
+        sessionStorage.getItem("hq_email"),
+        sessionStorage.getItem("hq_role")
+      );
+    } else {
+      console.error("Backend error:", result.message);
     }
+
   } catch (err) {
     console.error("Network error:", err);
   }
 }
-
 // ======================================================
-// SEARCH LEADS
+// SEARCH LEADS (Improved)
 // ======================================================
 function searchLeads() {
   const qName = document.getElementById("FullName").value.trim().toLowerCase();
@@ -284,18 +290,17 @@ function searchLeads() {
 
   filteredLeads = allLeads.filter((lead) => {
     return (
-      (lead.FullName || "").toLowerCase().includes(qName) &&
-      (lead.Email || "").toLowerCase().includes(qEmail) &&
-      (lead.Phone || "").toLowerCase().includes(qPhone) &&
-      (lead.Source || "").toLowerCase().includes(qSource) &&
-      (lead.Status || "").toLowerCase().includes(qStatus)
+      (!qName   || (lead.FullName || "").toLowerCase().includes(qName)) &&
+      (!qEmail  || (lead.Email || "").toLowerCase().includes(qEmail)) &&
+      (!qPhone  || (lead.Phone || "").toLowerCase().includes(qPhone)) &&
+      (!qSource || (lead.Source || "").toLowerCase().includes(qSource)) &&
+      (!qStatus || (lead.Status || "").toLowerCase().includes(qStatus))
     );
   });
 
   currentPage = 1;
   renderPaginated();
 }
-
 // ======================================================
 // CLEAR FORM
 // ======================================================
@@ -313,86 +318,32 @@ function clearForm() {
   renderPaginated();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  // NAV BUTTONS
-  const btnDashboard = document.querySelector(".hq-menu button:nth-child(1)");
-  const btnLeads     = document.querySelector(".hq-menu button:nth-child(2)");
-  const btnTasks     = document.querySelector(".hq-menu button:nth-child(3)");
-  const btnProfile   = document.querySelector(".hq-menu button:nth-child(4)");
-
-  // SECTIONS
-  const leadForm       = document.querySelector(".hq-lead-form");
-  const leadTable      = document.querySelector(".hq-lead-table");
-  const profileSection = document.getElementById("profileSection");
-
-  // PROFILE BUTTONS
-  const btnSaveProfile    = document.getElementById("saveProfile");
-  const btnChangePassword = document.getElementById("changePassword");
-
-  // SHOW PROFILE
-  btnProfile.addEventListener("click", () => {
-    leadForm.classList.add("hidden");
-    leadTable.classList.add("hidden");
-    profileSection.classList.remove("hidden");
-    loadProfile();
-  });
-
-  // SHOW LEADS
-  btnLeads.addEventListener("click", () => {
-    leadForm.classList.remove("hidden");
-    leadTable.classList.remove("hidden");
-    profileSection.classList.add("hidden");
-  });
-
-  // SAVE PROFILE
-  btnSaveProfile.addEventListener("click", () => {
-    saveProfile();
-  });
-
-  // CHANGE PASSWORD
-  btnChangePassword.addEventListener("click", () => {
-    changePassword();
-  });
-
-});
-
-
+// ======================================================
+// SAVE PROFILE
+// ======================================================
 async function saveProfile() {
   const name = document.getElementById("profileName").value.trim();
   const phone = document.getElementById("profilePhone").value.trim();
   const email = sessionStorage.getItem("hq_email");
 
-  const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+  try {
+    const url = `${WEB_APP_URL}?action=updateEmployeeProfile&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`;
 
-const response = await fetch(url);
-const result = await response.json();
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      sessionStorage.setItem("hq_name", name);
+      sessionStorage.setItem("hq_phone", phone);
+      alert("Profile updated successfully");
+    } else {
+      console.error("Backend error:", result.message);
+    }
 
-  if (result.success) {
-    sessionStorage.setItem("hq_name", name);
-    sessionStorage.setItem("hq_phone", phone);
-    alert("Profile updated successfully");
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-async function changePassword() {
-  const email = sessionStorage.getItem("hq_email");
-  const newPassword = prompt("Enter new password");
-
-  if (!newPassword) return;
-
-  const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
-
-const response = await fetch(url);
-const result = await response.json();
-  const result = await response.json();
-
-  if (result.success) {
-    alert("Password updated successfully");
-  }
-}
-
 function loadProfile() {
   document.getElementById("profileName").value  = sessionStorage.getItem("hq_name") || "";
   document.getElementById("profileEmail").value = sessionStorage.getItem("hq_email") || "";
