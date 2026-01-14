@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbzmLgKZBmvAACGmVXb-xYlNlHAAHR7ACcUUeu7Xiw4sQV2w2a7jzIkok0ILXx6QuiCAkQ/exec";
+  "https://script.google.com/macros/s/AKfycbzswOA3wBYD4UV4zG8qZHv1H0PradcU4v9vVkacVLeN2iBjo0FSqM6qgA4HOqRftn1XWA/exec";
 
 let currentLeadID = null;
 let allLeads = [];
