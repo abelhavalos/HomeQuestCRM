@@ -5,8 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const errorMessage = document.getElementById("errorMessage");
   const successMessage = document.getElementById("successMessage");
-  const loginMessage = document.getElementById("loginMessage");loginMessage.textContent = "";
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzKIMLr7da5-to_wcsQk9L3__STGta1YPKo5WTJwXqn8I5io7PTcGKwx5P6XGxfAFyccA/exec"; // <-- update this
+  const loginMessage = document.getElementById("loginMessage");
+  loginMessage.textContent = "";
+
+  const WEB_APP_URL = "YOUR_NEW_EXEC_URL_HERE";
 
   // -----------------------------
   // ROLE TAB SWITCHING
@@ -24,9 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const selectedRole = tab.dataset.role;
       roleInput.value = selectedRole;
 
-      roleHint.innerHTML = `You are signing in as <strong>${capitalize(
-        selectedRole
-      )}</strong>.`;
+      roleHint.innerHTML = `You are signing in as <strong>${capitalize(selectedRole)}</strong>.`;
 
       clearMessages();
     });
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // FORM SUBMISSION
+  // FORM SUBMISSION (GET VERSION)
   // -----------------------------
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -53,17 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "login",
-          email,
-          password,
-          role
-        })
-      });
+      const url = `${WEB_APP_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&role=${encodeURIComponent(role)}`;
 
+      const response = await fetch(url);
       const result = await response.json();
 
       if (!result.success) {
