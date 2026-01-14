@@ -2,19 +2,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const email = sessionStorage.getItem("hq_email");
   const role = sessionStorage.getItem("hq_role");
 
+  // Redirect if not logged in
   if (!email || !role) {
     window.location.href = "index.html";
     return;
   }
 
+  // Load leads immediately
   loadLeads(email, role);
 
-  document.getElementById("saveNewLead").addEventListener("click", addLead);
-  document.getElementById("updateLead").addEventListener("click", updateLead);
-  document.getElementById("deleteLead").addEventListener("click", deleteLead);
-  document.getElementById("clearLead").addEventListener("click", clearForm);
-  document.getElementById("searchLead").addEventListener("click", searchLeads);
+  // Safely attach event listeners
+  attachEvent("saveNewLead", "click", addLead);
+  attachEvent("updateLead", "click", updateLead);
+  attachEvent("deleteLead", "click", deleteLead);
+  attachEvent("clearLead", "click", clearForm);
+  attachEvent("searchLead", "click", searchLeads);
 });
+
+// Helper to avoid null element errors
+function attachEvent(id, event, handler) {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener(event, handler);
+}
 
 const WEB_APP_URL =
   "https://script.google.com/macros/s/AKfycbzufjHOh1GDq9RrghDcXZ5qvF4Vp_sC3sl3_JA0HBP81cmrC8I-QOn82LvFG4zhpjSABg/exec";
@@ -30,13 +39,15 @@ let pageSize = 10;
 // ======================================================
 async function loadLeads(email, role) {
   try {
-    const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(email)}&role=${encodeURIComponent(role)}`;
+    const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(
+      email
+    )}&role=${encodeURIComponent(role)}`;
 
     const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
-      allLeads = result.leads;
+      allLeads = result.leads || [];
       filteredLeads = [...allLeads];
       currentPage = 1;
       renderPaginated();
@@ -49,9 +60,18 @@ async function loadLeads(email, role) {
 }
 
 // ======================================================
+// ======================================================
 // PAGINATION CONTROLLER
 // ======================================================
 function renderPaginated() {
+  if (!Array.isArray(filteredLeads)) filteredLeads = [];
+
+  const totalPages = Math.max(1, Math.ceil(filteredLeads.length / pageSize));
+
+  // Prevent out-of-range pages
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
   const start = (currentPage - 1) * pageSize;
   const end = start + pageSize;
 
@@ -66,7 +86,20 @@ function renderPaginated() {
 // ======================================================
 function renderLeads(leads) {
   const tbody = document.getElementById("leadsBody");
+  if (!tbody) return; // Prevent crashes
+
   tbody.innerHTML = "";
+
+  if (!Array.isArray(leads) || leads.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center; padding:10px;">
+          No leads found.
+        </td>
+      </tr>
+    `;
+    return;
+  }
 
   leads.forEach((lead) => {
     const row = document.createElement("tr");
@@ -80,18 +113,21 @@ function renderLeads(leads) {
       <td><button class="edit-btn">Edit</button></td>
     `;
 
-    // Row click selects lead
+    // Entire row selects the lead
     row.addEventListener("click", () => {
       currentLeadID = lead.LeadID;
       loadLeadIntoForm(lead);
     });
 
-    // Edit button (prevent row click bubbling)
-    row.querySelector(".edit-btn").addEventListener("click", (event) => {
-      event.stopPropagation();
-      currentLeadID = lead.LeadID;
-      loadLeadIntoForm(lead);
-    });
+    // Edit button (prevent row click)
+    const editBtn = row.querySelector(".edit-btn");
+    if (editBtn) {
+      editBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        currentLeadID = lead.LeadID;
+        loadLeadIntoForm(lead);
+      });
+    }
 
     tbody.appendChild(row);
   });
@@ -101,47 +137,69 @@ function renderLeads(leads) {
 // PAGINATION BUTTONS
 // ======================================================
 function renderPaginationControls() {
+  const tableWrapper = document.querySelector(".hq-lead-table");
+  if (!tableWrapper) return;
+
   let container = document.getElementById("pagination");
 
+  // Create container if missing
   if (!container) {
     container = document.createElement("div");
     container.id = "pagination";
     container.style.marginTop = "15px";
     container.style.display = "flex";
     container.style.gap = "8px";
-    document.querySelector(".hq-lead-table").appendChild(container);
+    tableWrapper.appendChild(container);
   }
 
   container.innerHTML = "";
 
-  const totalPages = Math.ceil(filteredLeads.length / pageSize);
+  // Handle empty list
+  if (!Array.isArray(filteredLeads) || filteredLeads.length === 0) {
+    return;
+  }
 
+  const totalPages = Math.max(1, Math.ceil(filteredLeads.length / pageSize));
+
+  // Ensure currentPage stays valid
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  // Prev button
   const prev = document.createElement("button");
   prev.textContent = "Prev";
   prev.disabled = currentPage === 1;
   prev.onclick = () => {
-    currentPage--;
-    renderPaginated();
+    if (currentPage > 1) {
+      currentPage--;
+      renderPaginated();
+    }
   };
   container.appendChild(prev);
 
+  // Numbered buttons
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement("button");
     btn.textContent = i;
     btn.style.fontWeight = i === currentPage ? "bold" : "normal";
     btn.onclick = () => {
-      currentPage = i;
-      renderPaginated();
+      if (currentPage !== i) {
+        currentPage = i;
+        renderPaginated();
+      }
     };
     container.appendChild(btn);
   }
 
+  // Next button
   const next = document.createElement("button");
   next.textContent = "Next";
   next.disabled = currentPage === totalPages;
   next.onclick = () => {
-    currentPage++;
-    renderPaginated();
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderPaginated();
+    }
   };
   container.appendChild(next);
 }
@@ -150,13 +208,21 @@ function renderPaginationControls() {
 // LOAD LEAD INTO FORM
 // ======================================================
 function loadLeadIntoForm(lead) {
-  currentLeadID = lead.LeadID;
+  if (!lead || typeof lead !== "object") return;
 
-  document.getElementById("FullName").value = lead.FullName || "";
-  document.getElementById("Email").value = lead.Email || "";
-  document.getElementById("Phone").value = lead.Phone || "";
-  document.getElementById("Source").value = lead.Source || "";
-  document.getElementById("Status").value = lead.Status || "New";
+  currentLeadID = lead.LeadID || null;
+
+  setValue("FullName", lead.FullName);
+  setValue("Email", lead.Email);
+  setValue("Phone", lead.Phone);
+  setValue("Source", lead.Source);
+  setValue("Status", lead.Status || "New");
+}
+
+// Safe setter to avoid crashes
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value || "";
 }
 
 // ======================================================
@@ -322,12 +388,29 @@ function clearForm() {
 // SAVE PROFILE
 // ======================================================
 async function saveProfile() {
-  const name = document.getElementById("profileName").value.trim();
-  const phone = document.getElementById("profilePhone").value.trim();
+  const nameEl = document.getElementById("profileName");
+  const phoneEl = document.getElementById("profilePhone");
+
+  if (!nameEl || !phoneEl) {
+    console.error("Profile form elements missing");
+    return;
+  }
+
+  const name = nameEl.value.trim();
+  const phone = phoneEl.value.trim();
   const email = sessionStorage.getItem("hq_email");
 
+  if (!email) {
+    console.error("No email found in session. User not logged in.");
+    return;
+  }
+
   try {
-    const url = `${WEB_APP_URL}?action=updateEmployeeProfile&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`;
+    const url =
+      `${WEB_APP_URL}?action=updateEmployeeProfile` +
+      `&email=${encodeURIComponent(email)}` +
+      `&name=${encodeURIComponent(name)}` +
+      `&phone=${encodeURIComponent(phone)}`;
 
     const response = await fetch(url);
     const result = await response.json();
@@ -344,8 +427,18 @@ async function saveProfile() {
     console.error("Network error:", err);
   }
 }
+
+// ======================================================
+// LOAD PROFILE
+// ======================================================
 function loadProfile() {
-  document.getElementById("profileName").value  = sessionStorage.getItem("hq_name") || "";
-  document.getElementById("profileEmail").value = sessionStorage.getItem("hq_email") || "";
-  document.getElementById("profilePhone").value = sessionStorage.getItem("hq_phone") || "";
+  setValue("profileName", sessionStorage.getItem("hq_name"));
+  setValue("profileEmail", sessionStorage.getItem("hq_email"));
+  setValue("profilePhone", sessionStorage.getItem("hq_phone"));
+}
+
+// Safe setter to avoid crashes
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value || "";
 }
