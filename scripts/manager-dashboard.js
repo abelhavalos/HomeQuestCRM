@@ -93,6 +93,30 @@ function populateAssignedToDropdown() {
 // =====================================
 // LOAD LEADS
 // =====================================
+// =====================================
+// LOAD LEADS
+// =====================================
+async function loadLeads() {
+  try {
+    const url = `${WEB_APP_URL}?action=getLeads`;
+
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (result.success) {
+      allLeads = result.leads;
+      filteredLeads = [...allLeads];
+      leadPage = 1;
+      renderLeadPaginated();
+    } else {
+      console.error("Backend error:", result.message);
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
+  }
+}
+
 async function loadEmployees() {
   try {
     const url = `${WEB_APP_URL}?action=getEmployees`;
