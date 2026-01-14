@@ -93,23 +93,24 @@ function populateAssignedToDropdown() {
 // =====================================
 // LOAD LEADS
 // =====================================
-async function loadLeads() {
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "getLeads", role: "manager" })
-  });
+async function loadEmployees() {
+  try {
+    const url = `${WEB_APP_URL}?action=getEmployees`;
 
-  const result = await response.json();
+    const response = await fetch(url);
+    const result = await response.json();
 
-  if (result.success) {
-    allLeads = result.leads;
-    filteredLeads = [...allLeads];
-    leadPage = 1;
-    renderLeadPaginated();
+    if (result.success) {
+      employees = result.employees;
+      renderEmployees();
+    } else {
+      console.error("Backend error:", result.message);
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
 // =====================================
 // LEAD TABLE RENDERING
 // =====================================
