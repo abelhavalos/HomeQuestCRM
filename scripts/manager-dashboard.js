@@ -355,9 +355,7 @@ function searchLeads() {
   // ⭐ Re-render table + pagination
   renderLeadPaginated();
 }
-// =====================================
-// LOAD EMPLOYEES
-// =====================================
+
 async function loadEmployees() {
   try {
     const url = `${WEB_APP_URL}?action=getEmployees`;
