@@ -1,5 +1,5 @@
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbxY1W_fJr4q85SL9gDPyBQzXh43SCi8j-DrSKiXGxyFfP3TGQsUO4jxKYIbcF0wABZybg/exec";
+  "https://script.google.com/macros/s/AKfycbyvbxJplV-AMo46jcU8BqzA_SzCOFwKMnsUbevs7oKkt4paAU5NvlvAJP0FqQc3ZGOCsg/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("sendResetRequest");

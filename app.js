@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorMessage = document.getElementById("errorMessage");
   const successMessage = document.getElementById("successMessage");
   const loginMessage = document.getElementById("loginMessage");loginMessage.textContent = "";
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwNNFPfDM3s9iYqET9YNm5mUc-SmHc9qU2rIQpT7VxfqeRvj0_P4kU5OTT1P75iwHjIOA/exec"; // <-- update this
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvbxJplV-AMo46jcU8BqzA_SzCOFwKMnsUbevs7oKkt4paAU5NvlvAJP0FqQc3ZGOCsg/exec"; // <-- update this
 
   // -----------------------------
   // ROLE TAB SWITCHING
@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sessionStorage.setItem("hq_email", result.email);
       sessionStorage.setItem("hq_name", result.fullName);
       sessionStorage.setItem("hq_role", result.role);
+      sessionStorage.setItem("hq_phone", result.phone);
 
       showSuccess("Access granted. Redirecting…");
 

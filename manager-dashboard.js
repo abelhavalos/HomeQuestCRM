@@ -2,7 +2,7 @@
 // Manager Dashboard JS
 // =====================================
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwNNFPfDM3s9iYqET9YNm5mUc-SmHc9qU2rIQpT7VxfqeRvj0_P4kU5OTT1P75iwHjIOA/exec"; // Replace with your Apps Script URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvbxJplV-AMo46jcU8BqzA_SzCOFwKMnsUbevs7oKkt4paAU5NvlvAJP0FqQc3ZGOCsg/exec"; // Replace with your Apps Script URL
 
 // -------------------------------
 // GLOBAL STATE
@@ -652,3 +652,101 @@ function searchEmployees() {
 }
 
 
+document.addEventListener("DOMContentLoaded", () => {
+
+  // NAV BUTTONS
+  const btnLeads     = document.getElementById("navLeads");
+  const btnEmployees = document.getElementById("navEmployees");
+  const btnProfile   = document.getElementById("navProfile");
+
+  // PANELS
+  const leadPanel     = document.getElementById("leadPanel");
+  const employeePanel = document.getElementById("employeePanel");
+  const profileSection = document.getElementById("profileSection");
+
+  // PROFILE BUTTONS
+  const btnSaveProfile    = document.getElementById("saveProfile");
+  const btnChangePassword = document.getElementById("changePassword");
+
+  // SHOW LEADS
+  btnLeads.addEventListener("click", () => {
+    leadPanel.style.display = "flex";
+    employeePanel.style.display = "none";
+    profileSection.classList.add("hidden");
+  });
+
+  // SHOW EMPLOYEES
+  btnEmployees.addEventListener("click", () => {
+    leadPanel.style.display = "none";
+    employeePanel.style.display = "flex";
+    profileSection.classList.add("hidden");
+  });
+
+  // SHOW PROFILE
+  btnProfile.addEventListener("click", () => {
+    leadPanel.style.display = "none";
+    employeePanel.style.display = "none";
+    profileSection.classList.remove("hidden");
+    loadProfile();
+  });
+
+  // SAVE PROFILE
+  btnSaveProfile.addEventListener("click", saveProfile);
+
+  // CHANGE PASSWORD
+  btnChangePassword.addEventListener("click", changePassword);
+
+});
+
+async function saveProfile() {
+  const name = document.getElementById("profileName").value.trim();
+  const phone = document.getElementById("profilePhone").value.trim();
+  const email = sessionStorage.getItem("hq_email");
+
+  const response = await fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "updateEmployeeProfile",
+      email,
+      name,
+      phone
+    })
+  });
+
+  const result = await response.json();
+
+  if (result.success) {
+    sessionStorage.setItem("hq_name", name);
+    sessionStorage.setItem("hq_phone", phone);
+    alert("Profile updated successfully");
+  }
+}
+async function changePassword() {
+  const email = sessionStorage.getItem("hq_email");
+  const newPassword = prompt("Enter new password");
+
+  if (!newPassword) return;
+
+  const response = await fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "changePassword",
+      email,
+      newPassword
+    })
+  });
+
+  const result = await response.json();
+
+  if (result.success) {
+    alert("Password updated successfully");
+  }
+}
+
+function loadProfile() {
+  document.getElementById("profileName").value  = sessionStorage.getItem("hq_name") || "";
+  document.getElementById("profileEmail").value = sessionStorage.getItem("hq_email") || "";
+  document.getElementById("profilePhone").value = sessionStorage.getItem("hq_phone") || "";
+}

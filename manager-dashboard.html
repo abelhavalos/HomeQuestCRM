@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>HomeQuest CRM – Manager Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css" />
-  <script defer src="manager-dashboard.js"></script>
+  <link rel="stylesheet" href="styles/dashboard.css" />
+  <script defer src="scripts/manager-dashboard.js"></script>
 </head>
 
 <body>
@@ -19,6 +19,7 @@
       <nav class="hq-menu">
         <button id="navLeads">Leads</button>
         <button id="navEmployees">Employees</button>
+        <button id="navProfile">Profile</button>
       </nav>
 
       <button class="hq-exit" onclick="window.location.href='index.html'">EXIT</button>
@@ -133,7 +134,34 @@
       </section>
 
     </div>
+    
+<section id="profileSection" class="hq-profile-section hidden">
+  <h2>My Profile</h2>
 
+  <div class="profile-layout">
+    
+    <!-- Left: Form -->
+    <div class="profile-form">
+      <input id="profileName" type="text" placeholder="Full Name">
+      <input id="profileEmail" type="email" placeholder="Email" disabled>
+      <input id="profilePhone" type="text" placeholder="Phone Number">
+
+      <button id="saveProfile">Save Changes</button>
+      <button id="changePassword">Change Password</button>
+    </div>
+
+    <!-- Right: Picture + Notes -->
+    <div class="profile-picture">
+      <img class="avatar" src="default-avatar.png">
+      <input type="file" id="profileImage">
+    </div>
+
+    <div class="profile-notes">
+      Update your personal information and login details.
+    </div>
+
+  </div>
+</section>
     <!-- ========================= -->
     <!-- STATUS BAR -->
     <!-- ========================= -->

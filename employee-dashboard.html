@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>HomeQuest CRM – Employee Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css" />
-  <script src="dashboard.js"></script>
+  <link rel="stylesheet" href="styles/dashboard.css" />
+  <script src="scripts/employee-dashboard.js"></script>
 </head>
 
 <body>
@@ -83,7 +83,40 @@
       </section>
 
     </div>
+<!-- ========================= -->
+<!-- EMPLOYEE PROFILE SECTION -->
+<!-- ========================= -->
+<section id="profileSection" class="hq-profile-section hidden">
+  <h2>Employee Profile</h2>
 
+  <div class="profile-layout">
+
+    <!-- Form -->
+    <div class="profile-form">
+      <input id="profileName" placeholder="Full Name">
+      <input id="profileEmail" placeholder="Email" readonly>
+      <input id="profilePhone" placeholder="Phone">
+      <input id="profileRole" value="Employee" readonly>
+
+      <button id="changePassword">Change Password</button>
+      <button id="saveProfile">Save Changes</button>
+    </div>
+
+    <!-- Picture -->
+    <div class="profile-picture">
+      <img id="profilePhoto" src="default-avatar.png" class="avatar">
+      <input type="file" id="uploadPhoto">
+    </div>
+
+    <!-- Notes -->
+    <div class="profile-notes">
+      <p><strong>Last Login:</strong> <span id="lastLogin"></span></p>
+      <p><strong>Account Created:</strong> <span id="accountCreated"></span></p>
+      <p><strong>Assigned Leads:</strong> <span id="leadCount"></span></p>
+    </div>
+
+  </div>
+</section>
     <!-- ========================= -->
     <!-- STATUS BAR -->
     <!-- ========================= -->

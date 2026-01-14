@@ -289,3 +289,174 @@ body {
   padding: 20px;
   border-radius: 8px;
 }
+
+#sendResetRequest{
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 50%;
+}
+
+#forgotEmail{
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #0b1020;
+  color: white;
+  width: 50%;
+}
+
+.hq-forgot-panel{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 50%;
+  padding: 20px;  
+}
+
+.hidden { display: none; }
+
+/* ============================
+   EMPLOYEE PROFILE SECTION
+   ============================ */
+
+.hq-profile-section {
+  background: var(--hq-card);
+  padding: 20px;
+  border-radius: var(--hq-radius-lg);
+  border: 1px solid var(--hq-border);
+  box-shadow: var(--hq-shadow-soft);
+  margin-top: 20px;
+}
+
+.hq-profile-section h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: var(--hq-text);
+}
+
+/* Layout grid */
+.profile-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+
+/* Form styling */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-form input {
+  padding: 10px 12px;
+  border-radius: var(--hq-radius-md);
+  border: 1px solid var(--hq-border);
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--hq-text);
+  font-size: 0.9rem;
+}
+
+.profile-form button {
+  padding: 10px 12px;
+  border-radius: var(--hq-radius-md);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--hq-transition);
+}
+
+#saveProfile {
+  background: var(--hq-accent);
+  color: white;
+}
+
+#saveProfile:hover {
+  filter: brightness(1.1);
+}
+
+#changePassword {
+  background: var(--hq-border);
+  color: var(--hq-text);
+}
+
+#changePassword:hover {
+  background: var(--hq-muted);
+}
+
+/* Picture area */
+.profile-picture {
+  text-align: center;
+}
+
+.profile-picture .avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 3px solid var(--hq-accent);
+  margin-bottom: 10px;
+}
+
+.profile-picture input[type="file"] {
+  font-size: 0.8rem;
+  color: var(--hq-muted);
+}
+
+/* Notes */
+.profile-notes {
+  font-size: 0.9rem;
+  color: var(--hq-muted);
+  background: rgba(15, 23, 42, 0.6);
+  padding: 12px;
+  border-radius: var(--hq-radius-md);
+  border: 1px solid var(--hq-border);
+}
+
+/* Hidden utility */
+.hidden {
+  display: none !important;
+}
+
+/* ============================
+   TOP NAVIGATION MENU
+   ============================ */
+
+.hq-menu {
+  display: flex;
+  gap: 12px;
+}
+
+.hq-menu button {
+  background: transparent;
+  border: 1px solid var(--hq-border);
+  padding: 8px 16px;
+  border-radius: var(--hq-radius-md);
+  color: var(--hq-text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background var(--hq-transition), color var(--hq-transition), border-color var(--hq-transition), transform 120ms ease-out;
+}
+
+/* Hover effect */
+.hq-menu button:hover {
+  background: var(--hq-accent-soft);
+  border-color: var(--hq-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Active tab */
+.hq-menu button.active {
+  background: var(--hq-accent);
+  border-color: var(--hq-accent);
+  color: white;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.45);
+  transform: translateY(-1px);
+}
