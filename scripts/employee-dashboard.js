@@ -30,16 +30,10 @@ let pageSize = 10;
 // ======================================================
 async function loadLeads(email, role) {
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "getLeads",
-        role,
-        email
-      })
-    });
+    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
 
+    const response = await fetch(url);
+    const result = await response.json();
     const result = await response.json();
 
     if (result.success) {
@@ -194,15 +188,10 @@ async function addLead() {
   };
 
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "addLead",
-        leadData,
-      }),
-    });
+    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
 
+const response = await fetch(url);
+const result = await response.json();
     const result = await response.json();
 
     if (result.success) {
@@ -238,15 +227,10 @@ async function updateLead() {
   };
 
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "updateLead",
-        leadId: currentLeadID,
-        leadData,
-      }),
-    });
+    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+
+const response = await fetch(url);
+const result = await response.json();
 
     const result = await response.json();
 
@@ -272,14 +256,10 @@ async function deleteLead() {
   if (!confirmDelete) return;
 
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "deleteLead",
-        leadId: currentLeadID,
-      }),
-    });
+    const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+
+const response = await fetch(url);
+const result = await response.json();
 
     const result = await response.json();
 
@@ -383,16 +363,10 @@ async function saveProfile() {
   const phone = document.getElementById("profilePhone").value.trim();
   const email = sessionStorage.getItem("hq_email");
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "updateEmployeeProfile",
-      email,
-      name,
-      phone
-    })
-  });
+  const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
+
+const response = await fetch(url);
+const result = await response.json();
 
   const result = await response.json();
 
@@ -408,16 +382,10 @@ async function changePassword() {
 
   if (!newPassword) return;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "changePassword",
-      email,
-      newPassword
-    })
-  });
+  const response = await const url = `${WEB_APP_URL}?action=getLeads&email=${encodeURIComponent(userEmail)}&role=${encodeURIComponent(userRole)}`;
 
+const response = await fetch(url);
+const result = await response.json();
   const result = await response.json();
 
   if (result.success) {
