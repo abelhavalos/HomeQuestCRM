@@ -429,14 +429,13 @@ async function saveProfile() {
   const name = nameEl.value.trim();
   const phone = phoneEl.value.trim();
   const email = sessionStorage.getItem("hq_email");
-  console.error(email);
+  
   if (!email) {
     console.error("No email found in session. User not logged in.");
     return;
   }
 
   try {
-    console.error(email,name,phone);
     const url =
       `${WEB_APP_URL}?action=updateEmployeeProfile` +
       `&email=${email}` +
