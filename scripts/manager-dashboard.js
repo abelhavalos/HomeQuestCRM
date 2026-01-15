@@ -91,22 +91,26 @@ function populateAssignedToDropdown() {
 }
 
 // =====================================
-// LOAD LEADS
+// LOAD LEADS (MANAGER VERSION)
 // =====================================
 async function loadLeads() {
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "getLeads", role: "manager" })
-  });
+  try {
+    const url = `${WEB_APP_URL}?action=getLeads&role=manager`;
 
-  const result = await response.json();
+    const response = await fetch(url);
+    const result = await response.json();
 
-  if (result.success) {
-    allLeads = result.leads;
-    filteredLeads = [...allLeads];
-    leadPage = 1;
-    renderLeadPaginated();
+    if (result.success) {
+      allLeads = result.leads;
+      filteredLeads = [...allLeads];
+      leadPage = 1;
+      renderLeadPaginated();
+    } else {
+      console.error("Backend error:", result.message);
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
 
@@ -227,107 +231,119 @@ async function addLead() {}
 async function updateLead() {}
 async function deleteLead() {}
 
+// =====================================
+// ADD LEAD (GET VERSION)
+// =====================================
 async function addLead() {
-  const leadData = {
-    FullName: document.getElementById("FullName").value.trim(),
-    Email: document.getElementById("Email").value.trim(),
-    Phone: document.getElementById("Phone").value.trim(),
-    Source: document.getElementById("Source").value.trim(),
-    Status: document.getElementById("Status").value.trim(),
-    AssignedTo: document.getElementById("AssignedTo").value.trim()
-  };
+  const FullName = document.getElementById("FullName").value.trim();
+  const Email = document.getElementById("Email").value.trim();
+  const Phone = document.getElementById("Phone").value.trim();
+  const Source = document.getElementById("Source").value.trim();
+  const Status = document.getElementById("Status").value.trim();
+  const AssignedTo = document.getElementById("AssignedTo").value.trim();
 
-  const payload = {
-    action: "addLead",
-    leadData
-  };
+  if (!FullName || !Email) {
+    alert("FullName and Email are required.");
+    return;
+  }
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  const url = `${WEB_APP_URL}?action=addLead`
+    + `&FullName=${encodeURIComponent(FullName)}`
+    + `&Email=${encodeURIComponent(Email)}`
+    + `&Phone=${encodeURIComponent(Phone)}`
+    + `&Source=${encodeURIComponent(Source)}`
+    + `&Status=${encodeURIComponent(Status)}`
+    + `&AssignedTo=${encodeURIComponent(AssignedTo)}`
+    + `&Notes=${encodeURIComponent("")}`;
 
-  const result = await response.json();
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-  if (result.success) {
-    alert("Lead added successfully.");
-    clearLeadForm();
-    loadLeads();
-  } else {
-    alert(result.message);
+    if (result.success) {
+      alert("Lead added successfully.");
+      clearLeadForm();
+      loadLeads();
+    } else {
+      alert(result.message || "Error adding lead.");
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
 
-
+// =====================================
+// UPDATE LEAD (GET VERSION)
+// =====================================
 async function updateLead() {
   if (!currentLeadID) {
     alert("Select a lead to update.");
     return;
   }
 
-  const leadData = {
-    FullName: document.getElementById("FullName").value.trim(),
-    Email: document.getElementById("Email").value.trim(),
-    Phone: document.getElementById("Phone").value.trim(),
-    Source: document.getElementById("Source").value.trim(),
-    Status: document.getElementById("Status").value.trim(),
-    AssignedTo: document.getElementById("AssignedTo").value.trim()
-  };
+  const FullName = document.getElementById("FullName").value.trim();
+  const Email = document.getElementById("Email").value.trim();
+  const Phone = document.getElementById("Phone").value.trim();
+  const Source = document.getElementById("Source").value.trim();
+  const Status = document.getElementById("Status").value.trim();
+  const AssignedTo = document.getElementById("AssignedTo").value.trim();
 
-  const payload = {
-    action: "updateLead",
-    leadId: currentLeadID,
-    leadData
-  };
+  const url = `${WEB_APP_URL}?action=updateLead`
+    + `&leadId=${encodeURIComponent(currentLeadID)}`
+    + `&FullName=${encodeURIComponent(FullName)}`
+    + `&Email=${encodeURIComponent(Email)}`
+    + `&Phone=${encodeURIComponent(Phone)}`
+    + `&Source=${encodeURIComponent(Source)}`
+    + `&Status=${encodeURIComponent(Status)}`
+    + `&AssignedTo=${encodeURIComponent(AssignedTo)}`;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      alert("Lead updated successfully.");
+      clearLeadForm();
+      loadLeads();
+    } else {
+      alert(result.message || "Error updating lead.");
+    }
 
-  if (result.success) {
-    alert("Lead updated successfully.");
-    clearLeadForm();
-    loadLeads();
-  } else {
-    alert(result.message);
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
+// =====================================
+// DELETE LEAD (GET VERSION)
+// =====================================
 async function deleteLead() {
   if (!currentLeadID) {
     alert("Select a lead to delete.");
     return;
   }
 
-  if (!confirm("Are you sure you want to delete this lead?")) return;
+  const confirmDelete = confirm("Are you sure you want to delete this lead?");
+  if (!confirmDelete) return;
 
-  const payload = {
-    action: "deleteLead",
-    leadId: currentLeadID
-  };
+  const url = `${WEB_APP_URL}?action=deleteLead&leadId=${encodeURIComponent(currentLeadID)}`;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      alert("Lead deleted successfully.");
+      clearLeadForm();
+      loadLeads();
+    } else {
+      alert(result.message || "Error deleting lead.");
+    }
 
-  if (result.success) {
-    alert("Lead deleted successfully.");
-    clearLeadForm();
-    loadLeads();
-  } else {
-    alert(result.message);
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
 
 function searchLeads() {
   const name = document.getElementById("FullName").value.trim().toLowerCase();
@@ -363,43 +379,50 @@ function searchLeads() {
   // ⭐ Re-render table + pagination
   renderLeadPaginated();
 }
+
 // =====================================
-// LOAD EMPLOYEES
+// LOAD EMPLOYEES (GET VERSION)
 // =====================================
 async function loadEmployees() {
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "getEmployees" })
-  });
+  try {
+    const url = `${WEB_APP_URL}?action=getEmployees`;
 
-  const result = await response.json();
+    const response = await fetch(url);
+    const result = await response.json();
 
-  if (result.success) {
-    employees = result.employees;
+    if (result.success) {
+      employees = result.employees;
+    } else {
+      console.error("Backend error:", result.message);
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
 // =====================================
-// EMPLOYEE TABLE LOAD
+// LOAD EMPLOYEES (GET VERSION)
 // =====================================
-async function loadEmployeesForTable() {
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "getEmployees" })
-  });
+async function loadEmployees() {
+  try {
+    const url = `${WEB_APP_URL}?action=getEmployees`;
 
-  const result = await response.json();
+    const response = await fetch(url);
+    const result = await response.json();
 
-  if (result.success) {
-    allEmployees = result.employees;
-    filteredEmployees = [...allEmployees];
-    employeePage = 1;
-    renderEmployeePaginated();
+    if (result.success) {
+      employees = result.employees;
+      filteredEmployees = [...employees];
+      employeePage = 1;
+      renderEmployeePaginated();
+    } else {
+      console.error("Backend error:", result.message);
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
 // =====================================
 // EMPLOYEE TABLE RENDERING
 // =====================================
@@ -510,6 +533,9 @@ async function addEmployee() {}
 async function updateEmployee() {}
 async function deleteEmployee() {}
 
+// =====================================
+// ADD EMPLOYEE (GET VERSION)
+// =====================================
 async function addEmployee() {
   const FullName = document.getElementById("EmpFullName").value.trim();
   const Email = document.getElementById("EmpEmail").value.trim();
@@ -521,32 +547,32 @@ async function addEmployee() {
     return;
   }
 
-  const payload = {
-    action: "addEmployee",
-    FullName,
-    Email,
-    Role,
-    Status
-  };
+  const url = `${WEB_APP_URL}?action=addEmployee`
+    + `&FullName=${encodeURIComponent(FullName)}`
+    + `&Email=${encodeURIComponent(Email)}`
+    + `&Role=${encodeURIComponent(Role)}`
+    + `&Status=${encodeURIComponent(Status)}`;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      alert("Employee added successfully.");
+      clearEmployeeForm();
+      loadEmployeesForTable();
+      populateAssignedToDropdown();
+    } else {
+      alert(result.message || "Error adding employee.");
+    }
 
-  if (result.success) {
-    alert("Employee added successfully.");
-    clearEmployeeForm();
-    loadEmployeesForTable();
-    populateAssignedToDropdown();
-  } else {
-    alert(result.message);
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
+// =====================================
+// UPDATE EMPLOYEE (GET VERSION)
+// =====================================
 async function updateEmployee() {
   if (!currentEmployeeID) {
     alert("Select an employee to update.");
@@ -558,64 +584,61 @@ async function updateEmployee() {
   const Role = document.getElementById("EmpRole").value.trim();
   const Status = document.getElementById("EmpStatus").value.trim();
 
-  const payload = {
-    action: "updateEmployee",
-    Id: currentEmployeeID,
-    FullName,
-    Email,
-    Role,
-    Status
-  };
+  const url = `${WEB_APP_URL}?action=updateEmployee`
+    + `&Id=${encodeURIComponent(currentEmployeeID)}`
+    + `&FullName=${encodeURIComponent(FullName)}`
+    + `&Email=${encodeURIComponent(Email)}`
+    + `&Role=${encodeURIComponent(Role)}`
+    + `&Status=${encodeURIComponent(Status)}`;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      alert("Employee updated successfully.");
+      clearEmployeeForm();
+      loadEmployeesForTable();
+      populateAssignedToDropdown();
+    } else {
+      alert(result.message || "Error updating employee.");
+    }
 
-  if (result.success) {
-    alert("Employee updated successfully.");
-    clearEmployeeForm();
-    loadEmployeesForTable();
-    populateAssignedToDropdown();
-  } else {
-    alert(result.message);
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
+// =====================================
+// DELETE EMPLOYEE (GET VERSION)
+// =====================================
 async function deleteEmployee() {
   if (!currentEmployeeID) {
     alert("Select an employee to delete.");
     return;
   }
 
-  if (!confirm("Are you sure you want to delete this employee?")) return;
+  const confirmDelete = confirm("Are you sure you want to delete this employee?");
+  if (!confirmDelete) return;
 
-  const payload = {
-    action: "deleteEmployee",
-    Id: currentEmployeeID
-  };
+  const url = `${WEB_APP_URL}?action=deleteEmployee&Id=${encodeURIComponent(currentEmployeeID)}`;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      alert("Employee deleted successfully.");
+      clearEmployeeForm();
+      loadEmployeesForTable();
+      populateAssignedToDropdown();
+    } else {
+      alert(result.message || "Error deleting employee.");
+    }
 
-  if (result.success) {
-    alert("Employee deleted successfully.");
-    clearEmployeeForm();
-    loadEmployeesForTable();
-    populateAssignedToDropdown();
-  } else {
-    alert(result.message);
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-
 function searchEmployees() {
   const fullName = document.getElementById("EmpFullName").value.trim().toLowerCase();
   const email = document.getElementById("EmpEmail").value.trim().toLowerCase();
@@ -698,50 +721,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// =====================================
+// SAVE PROFILE (GET VERSION)
+// =====================================
 async function saveProfile() {
   const name = document.getElementById("profileName").value.trim();
   const phone = document.getElementById("profilePhone").value.trim();
   const email = sessionStorage.getItem("hq_email");
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "updateEmployeeProfile",
-      email,
-      name,
-      phone
-    })
-  });
+  if (!email) {
+    console.error("No email found in session. User not logged in.");
+    return;
+  }
 
-  const result = await response.json();
+  const url = `${WEB_APP_URL}?action=updateEmployeeProfile`
+    + `&email=${encodeURIComponent(email)}`
+    + `&name=${encodeURIComponent(name)}`
+    + `&phone=${encodeURIComponent(phone)}`;
 
-  if (result.success) {
-    sessionStorage.setItem("hq_name", name);
-    sessionStorage.setItem("hq_phone", phone);
-    alert("Profile updated successfully");
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (result.success) {
+      sessionStorage.setItem("hq_name", name);
+      sessionStorage.setItem("hq_phone", phone);
+      alert("Profile updated successfully");
+    } else {
+      console.error("Backend error:", result.message);
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
+// =====================================
+// CHANGE PASSWORD (GET VERSION)
+// =====================================
 async function changePassword() {
   const email = sessionStorage.getItem("hq_email");
+  if (!email) {
+    console.error("No email found in session. User not logged in.");
+    return;
+  }
+
   const newPassword = prompt("Enter new password");
+  if (!newPassword || newPassword.trim() === "") return;
 
-  if (!newPassword) return;
+  const url = `${WEB_APP_URL}?action=changePassword`
+    + `&email=${encodeURIComponent(email)}`
+    + `&newPassword=${encodeURIComponent(newPassword.trim())}`;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "changePassword",
-      email,
-      newPassword
-    })
-  });
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      alert("Password updated successfully");
+    } else {
+      console.error("Backend error:", result.message);
+    }
 
-  if (result.success) {
-    alert("Password updated successfully");
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
 
