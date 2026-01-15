@@ -2,7 +2,7 @@
 // GLOBAL CONSTANTS
 // ======================================================
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbx4whIrLq9HK0kvqAn4L_y5ARNvIqYWKgCWF4c2m6a1BvVgMEqnjtADlD0sb2jsdix9Cg/exec";
+  "https://script.google.com/macros/s/AKfycbzy8oi3h_aIs2zaR7sJlhJygWcEtYxOqUyLm7J0FLxkJVq24raWFNBskm0KS0dDMvv2Gg/exec";
 
 // ======================================================
 // GLOBAL STATE
