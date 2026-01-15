@@ -1,3 +1,29 @@
+// ======================================================
+// GLOBAL CONSTANTS
+// ======================================================
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbzufjHOh1GDq9RrghDcXZ5qvF4Vp_sC3sl3_JA0HBP81cmrC8I-QOn82LvFG4zhpjSABg/exec";
+
+// ======================================================
+// GLOBAL STATE
+// ======================================================
+let currentLeadID = null;
+let allLeads = [];
+let filteredLeads = [];
+let currentPage = 1;
+let pageSize = 10;
+
+// ======================================================
+// SAFE EVENT BINDER
+// ======================================================
+function safeOn(id, event, handler) {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener(event, handler);
+}
+
+// ======================================================
+// INITIALIZATION
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const email = sessionStorage.getItem("hq_email");
   const role = sessionStorage.getItem("hq_role");
@@ -7,30 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-// Load leads for this employee
   loadLeads(email, role);
 
-  // Safe event binding
-safeOn("saveNewLead", "click", addLead);
-safeOn("updateLead", "click", updateLead);
-safeOn("deleteLead", "click", deleteLead);
-safeOn("clearLead", "click", clearForm);
-safeOn("searchLead", "click", searchLeads);
-
-// Safe helper to prevent crashes
-function safeOn(id, event, handler) {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener(event, handler);
-}
-
-const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbzufjHOh1GDq9RrghDcXZ5qvF4Vp_sC3sl3_JA0HBP81cmrC8I-QOn82LvFG4zhpjSABg/exec";
-
-let currentLeadID = null;
-let allLeads = [];
-let filteredLeads = [];
-let currentPage = 1;
-let pageSize = 10;
+  safeOn("saveNewLead", "click", addLead);
+  safeOn("updateLead", "click", updateLead);
+  safeOn("deleteLead", "click", deleteLead);
+  safeOn("clearLead", "click", clearForm);
+  safeOn("searchLead", "click", searchLeads);
+});
 
 // ======================================================
 // LOAD LEADS (EMPLOYEE VERSION)
@@ -53,11 +63,11 @@ async function loadLeads(email, role) {
     } else {
       console.error("Backend error:", result.message);
     }
-
   } catch (err) {
     console.error("Network error:", err);
   }
 }
+
 // ======================================================
 // PAGINATION CONTROLLER
 // ======================================================
@@ -68,7 +78,10 @@ function renderPaginated() {
   const pageItems = filteredLeads.slice(start, end);
 
   renderLeads(pageItems);
-  renderPaginationControls();
+
+  if (typeof renderPaginationControls === "function") {
+    renderPaginationControls();
+  }
 }
 
 // ======================================================
@@ -76,6 +89,8 @@ function renderPaginated() {
 // ======================================================
 function renderLeads(leads) {
   const tbody = document.getElementById("leadsBody");
+  if (!tbody) return;
+
   tbody.innerHTML = "";
 
   leads.forEach((lead) => {
@@ -90,23 +105,27 @@ function renderLeads(leads) {
       <td><button class="edit-btn">Edit</button></td>
     `;
 
-    // Row click selects lead
     row.addEventListener("click", () => {
       currentLeadID = lead.LeadID;
-      loadLeadIntoForm(lead);
+      if (typeof loadLeadIntoForm === "function") {
+        loadLeadIntoForm(lead);
+      }
     });
 
-    // Edit button (prevent row click bubbling)
-    row.querySelector(".edit-btn").addEventListener("click", (event) => {
-      event.stopPropagation();
-      currentLeadID = lead.LeadID;
-      loadLeadIntoForm(lead);
-    });
+    const editBtn = row.querySelector(".edit-btn");
+    if (editBtn) {
+      editBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        currentLeadID = lead.LeadID;
+        if (typeof loadLeadIntoForm === "function") {
+          loadLeadIntoForm(lead);
+        }
+      });
+    }
 
     tbody.appendChild(row);
   });
 }
-
 // ======================================================
 // PAGINATION BUTTONS
 // ======================================================
@@ -474,4 +493,4 @@ function loadProfile() {
   document.getElementById("profileEmail").value = sessionStorage.getItem("hq_email") || "";
   document.getElementById("profilePhone").value = sessionStorage.getItem("hq_phone") || "";
 }
-                          }
+                          
