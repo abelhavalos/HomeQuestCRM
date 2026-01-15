@@ -220,6 +220,7 @@ function clearLeadForm() {
 
   // ⭐ Reset table
   filteredLeads = [...allLeads];
+  LoadLeads();
   leadPage = 1;
   renderLeadPaginated();
 }
@@ -522,6 +523,7 @@ function clearEmployeeForm() {
 
   // ⭐ Reset table to show ALL employees
   filteredEmployees = [...allEmployees];
+  loadEmployees();
   employeePage = 1;
   renderEmployeePaginated();
 }
@@ -599,6 +601,7 @@ async function updateEmployee() {
       alert("Employee updated successfully.");
       clearEmployeeForm();
       loadEmployeesForTable();
+      loadEmployees();
       populateAssignedToDropdown();
     } else {
       alert(result.message || "Error updating employee.");
