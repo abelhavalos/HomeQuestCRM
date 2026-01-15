@@ -474,3 +474,4 @@ function loadProfile() {
   document.getElementById("profileEmail").value = sessionStorage.getItem("hq_email") || "";
   document.getElementById("profilePhone").value = sessionStorage.getItem("hq_phone") || "";
 }
+                          }
