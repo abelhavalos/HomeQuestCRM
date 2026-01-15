@@ -438,9 +438,9 @@ async function saveProfile() {
   try {
     const url =
       `${WEB_APP_URL}?action=updateEmployeeProfile` +
-      `&email=${encodeURIComponent(email)}` +
-      `&name=${encodeURIComponent(name)}` +
-      `&phone=${encodeURIComponent(phone)}`;
+      `&email=${email}` +
+      `&name=${name}` +
+      `&phone=${phone}`;
 
     const response = await fetch(url);
     const result = await response.json();
@@ -470,8 +470,8 @@ async function saveProfile() {
   try {
     const url =
       `${WEB_APP_URL}?action=changePassword` +
-      `&email=${encodeURIComponent(email)}` +
-      `&newPassword=${encodeURIComponent(newPassword.trim())}`;
+      `&email=${email}` +
+      `&newPassword=${newPassword.trim()}`;
 
     const response = await fetch(url);
     const result = await response.json();
