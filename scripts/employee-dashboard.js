@@ -7,17 +7,24 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+// Load leads for this employee
   loadLeads(email, role);
 
-  document.getElementById("saveNewLead").addEventListener("click", addLead);
-  document.getElementById("updateLead").addEventListener("click", updateLead);
-  document.getElementById("deleteLead").addEventListener("click", deleteLead);
-  document.getElementById("clearLead").addEventListener("click", clearForm);
-  document.getElementById("searchLead").addEventListener("click", searchLeads);
-});
+  // Safe event binding
+safeOn("saveNewLead", "click", addLead);
+safeOn("updateLead", "click", updateLead);
+safeOn("deleteLead", "click", deleteLead);
+safeOn("clearLead", "click", clearForm);
+safeOn("searchLead", "click", searchLeads);
+
+// Safe helper to prevent crashes
+function safeOn(id, event, handler) {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener(event, handler);
+}
 
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbzKIMLr7da5-to_wcsQk9L3__STGta1YPKo5WTJwXqn8I5io7PTcGKwx5P6XGxfAFyccA/exec";
+  "https://script.google.com/macros/s/AKfycbzufjHOh1GDq9RrghDcXZ5qvF4Vp_sC3sl3_JA0HBP81cmrC8I-QOn82LvFG4zhpjSABg/exec";
 
 let currentLeadID = null;
 let allLeads = [];
@@ -30,31 +37,27 @@ let pageSize = 10;
 // ======================================================
 async function loadLeads(email, role) {
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "getLeads",
-        role,
-        email
-      })
-    });
+    const url =
+      `${WEB_APP_URL}?action=getLeads` +
+      `&email=${encodeURIComponent(email)}` +
+      `&role=${encodeURIComponent(role)}`;
 
+    const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
-      allLeads = result.leads;
+      allLeads = Array.isArray(result.leads) ? result.leads : [];
       filteredLeads = [...allLeads];
       currentPage = 1;
       renderPaginated();
     } else {
       console.error("Backend error:", result.message);
     }
+
   } catch (err) {
     console.error("Network error:", err);
   }
 }
-
 // ======================================================
 // PAGINATION CONTROLLER
 // ======================================================
@@ -167,55 +170,62 @@ function loadLeadIntoForm(lead) {
 }
 
 // ======================================================
-// ADD LEAD
+// ADD LEAD (EMPLOYEE VERSION)
 // ======================================================
 async function addLead() {
-  const FullName = document.getElementById("FullName").value.trim();
-  const Email = document.getElementById("Email").value.trim();
-  const Phone = document.getElementById("Phone").value.trim();
-  const Source = document.getElementById("Source").value.trim();
-  const Status = document.getElementById("Status").value.trim();
+  const FullNameEl = document.getElementById("FullName");
+  const EmailEl = document.getElementById("Email");
+  const PhoneEl = document.getElementById("Phone");
+  const SourceEl = document.getElementById("Source");
+  const StatusEl = document.getElementById("Status");
+
+  if (!FullNameEl || !EmailEl) {
+    console.error("Lead form elements missing");
+    return;
+  }
+
+  const FullName = FullNameEl.value.trim();
+  const Email = EmailEl.value.trim();
+  const Phone = PhoneEl ? PhoneEl.value.trim() : "";
+  const Source = SourceEl ? SourceEl.value.trim() : "";
+  const Status = StatusEl ? StatusEl.value.trim() : "New";
 
   const AssignedTo = sessionStorage.getItem("hq_email");
+  const role = sessionStorage.getItem("hq_role");
 
   if (!FullName || !Email) {
     alert("FullName and Email are required.");
     return;
   }
 
-  const leadData = {
-    FullName,
-    Email,
-    Phone,
-    Source,
-    Status,
-    AssignedTo,
-    Notes: "",
-  };
-
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "addLead",
-        leadData,
-      }),
-    });
+    const url =
+      `${WEB_APP_URL}?action=addLead` +
+      `&FullName=${encodeURIComponent(FullName)}` +
+      `&Email=${encodeURIComponent(Email)}` +
+      `&Phone=${encodeURIComponent(Phone)}` +
+      `&Source=${encodeURIComponent(Source)}` +
+      `&Status=${encodeURIComponent(Status)}` +
+      `&AssignedTo=${encodeURIComponent(AssignedTo)}` +
+      `&Notes=${encodeURIComponent("")}`;
 
+    const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
       clearForm();
-      loadLeads(AssignedTo, sessionStorage.getItem("hq_role"));
+      loadLeads(AssignedTo, role);
+    } else {
+      console.error("Backend error:", result.message);
     }
+
   } catch (err) {
     console.error("Network error:", err);
   }
 }
 
 // ======================================================
-// UPDATE LEAD
+// UPDATE LEAD (EMPLOYEE VERSION)
 // ======================================================
 async function updateLead() {
   if (!currentLeadID) {
@@ -223,44 +233,53 @@ async function updateLead() {
     return;
   }
 
-  const FullName = document.getElementById("FullName").value.trim();
-  const Email = document.getElementById("Email").value.trim();
-  const Phone = document.getElementById("Phone").value.trim();
-  const Source = document.getElementById("Source").value.trim();
-  const Status = document.getElementById("Status").value.trim();
+  const FullNameEl = document.getElementById("FullName");
+  const EmailEl = document.getElementById("Email");
+  const PhoneEl = document.getElementById("Phone");
+  const SourceEl = document.getElementById("Source");
+  const StatusEl = document.getElementById("Status");
 
-  const leadData = {
-    FullName,
-    Email,
-    Phone,
-    Source,
-    Status,
-  };
+  if (!FullNameEl || !EmailEl) {
+    console.error("Lead form elements missing");
+    return;
+  }
+
+  const FullName = FullNameEl.value.trim();
+  const Email = EmailEl.value.trim();
+  const Phone = PhoneEl ? PhoneEl.value.trim() : "";
+  const Source = SourceEl ? SourceEl.value.trim() : "";
+  const Status = StatusEl ? StatusEl.value.trim() : "New";
+
+  const userEmail = sessionStorage.getItem("hq_email");
+  const userRole = sessionStorage.getItem("hq_role");
 
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "updateLead",
-        leadId: currentLeadID,
-        leadData,
-      }),
-    });
+    const url =
+      `${WEB_APP_URL}?action=updateLead` +
+      `&leadId=${encodeURIComponent(currentLeadID)}` +
+      `&FullName=${encodeURIComponent(FullName)}` +
+      `&Email=${encodeURIComponent(Email)}` +
+      `&Phone=${encodeURIComponent(Phone)}` +
+      `&Source=${encodeURIComponent(Source)}` +
+      `&Status=${encodeURIComponent(Status)}`;
 
+    const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
       clearForm();
-      loadLeads(sessionStorage.getItem("hq_email"), sessionStorage.getItem("hq_role"));
+      loadLeads(userEmail, userRole);
+    } else {
+      console.error("Backend error:", result.message);
     }
+
   } catch (err) {
     console.error("Network error:", err);
   }
 }
 
 // ======================================================
-// DELETE LEAD
+// DELETE LEAD (EMPLOYEE VERSION)
 // ======================================================
 async function deleteLead() {
   if (!currentLeadID) {
@@ -271,22 +290,24 @@ async function deleteLead() {
   const confirmDelete = confirm("Are you sure you want to delete this lead?");
   if (!confirmDelete) return;
 
-  try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "deleteLead",
-        leadId: currentLeadID,
-      }),
-    });
+  const userEmail = sessionStorage.getItem("hq_email");
+  const userRole = sessionStorage.getItem("hq_role");
 
+  try {
+    const url =
+      `${WEB_APP_URL}?action=deleteLead` +
+      `&leadId=${encodeURIComponent(currentLeadID)}`;
+
+    const response = await fetch(url);
     const result = await response.json();
 
     if (result.success) {
       clearForm();
-      loadLeads(sessionStorage.getItem("hq_email"), sessionStorage.getItem("hq_role"));
+      loadLeads(userEmail, userRole);
+    } else {
+      console.error("Backend error:", result.message);
     }
+
   } catch (err) {
     console.error("Network error:", err);
   }
@@ -379,49 +400,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function saveProfile() {
-  const name = document.getElementById("profileName").value.trim();
-  const phone = document.getElementById("profilePhone").value.trim();
+  const nameEl = document.getElementById("profileName");
+  const phoneEl = document.getElementById("profilePhone");
+
+  if (!nameEl || !phoneEl) {
+    console.error("Profile form elements missing");
+    return;
+  }
+
+  const name = nameEl.value.trim();
+  const phone = phoneEl.value.trim();
   const email = sessionStorage.getItem("hq_email");
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "updateEmployeeProfile",
-      email,
-      name,
-      phone
-    })
-  });
+  if (!email) {
+    console.error("No email found in session. User not logged in.");
+    return;
+  }
 
-  const result = await response.json();
+  try {
+    const url =
+      `${WEB_APP_URL}?action=updateEmployeeProfile` +
+      `&email=${encodeURIComponent(email)}` +
+      `&name=${encodeURIComponent(name)}` +
+      `&phone=${encodeURIComponent(phone)}`;
 
-  if (result.success) {
-    sessionStorage.setItem("hq_name", name);
-    sessionStorage.setItem("hq_phone", phone);
-    alert("Profile updated successfully");
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (result.success) {
+      sessionStorage.setItem("hq_name", name);
+      sessionStorage.setItem("hq_phone", phone);
+      alert("Profile updated successfully");
+    } else {
+      console.error("Backend error:", result.message);
+    }
+
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
-async function changePassword() {
+ async function changePassword() {
   const email = sessionStorage.getItem("hq_email");
+  if (!email) {
+    console.error("No email found in session. User not logged in.");
+    return;
+  }
+
   const newPassword = prompt("Enter new password");
+  if (!newPassword || newPassword.trim() === "") return;
 
-  if (!newPassword) return;
+  try {
+    const url =
+      `${WEB_APP_URL}?action=changePassword` +
+      `&email=${encodeURIComponent(email)}` +
+      `&newPassword=${encodeURIComponent(newPassword.trim())}`;
 
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "changePassword",
-      email,
-      newPassword
-    })
-  });
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const result = await response.json();
+    if (result.success) {
+      alert("Password updated successfully");
+    } else {
+      console.error("Backend error:", result.message);
+    }
 
-  if (result.success) {
-    alert("Password updated successfully");
+  } catch (err) {
+    console.error("Network error:", err);
   }
 }
 
