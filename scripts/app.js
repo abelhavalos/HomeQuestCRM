@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginMessage = document.getElementById("loginMessage");
   loginMessage.textContent = "";
 
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzOr7Y8AsSQDmKhUiwurvVfR7yXZTOdrjxlFx0hBRAEjF-7d254dggPOchEANiAp2LmaA/exec";
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwd4N0lNFfoHc2lZBfxTsac4m1upsPiJ1jQjq8XYDfWiPrbKZ1WiamQsdfaEc7hsY1oiA/exec";
 
   // -----------------------------
   // ROLE TAB SWITCHING
