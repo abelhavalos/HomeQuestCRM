@@ -2,7 +2,7 @@
 // Manager Dashboard JS
 // =====================================
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw1QyxI16_Xhg3LcghPPcj-cr632yVlMUA4JsYoQyhVJYSnOJepq-kWpkCSco_K-SE_sA/exec"; // Replace with your Apps Script URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwWucdADa4KYOx5XH9pJ5gvqVGBv36jP-VDgL0t4jD8VWiDaHaF_S8yjdUO2cKNoVymKA/exec"; // Replace with your Apps Script URL
 
 // -------------------------------
 // GLOBAL STATE
