@@ -1,7 +1,7 @@
 // ======================================================
 // GLOBAL CONSTANTS
 // ======================================================
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxQHhRsnAAmHQ5U7r0BFyPgj4teHeqtOhrOura2_inpIJdxtQo6VW0_dhA9QsTjEn1EYQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyhjkgNTeyBCMu3D7w53J1UMN7cK3zEWo71whv8dQvaxR3gqelbr7_MKkdmVtq6_TRqig/exec";
 
 // ======================================================
 // GLOBAL STATE
