@@ -1,0 +1,332 @@
+/* ============================================
+   THEME VARIABLES
+============================================ */
+:root {
+  --bg: #0b1020;
+  --card: #111727;
+  --accent: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, 0.15);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: rgba(148, 163, 184, 0.25);
+  --radius: 14px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --shadow-soft: 0 4px 14px rgba(0,0,0,0.35);
+  --transition: 0.2s ease;
+}
+
+/* ============================================
+   GLOBAL
+============================================ */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hq-dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ============================================
+   TOP BAR
+============================================ */
+.hq-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hq-logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.hq-menu {
+  display: flex;
+  gap: 12px;
+}
+
+.hq-menu button {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.hq-menu button:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.hq-menu button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.45);
+  transform: translateY(-1px);
+}
+
+.hq-exit {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ============================================
+   MAIN LAYOUT
+============================================ */
+.hq-main {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* ============================================
+   PANELS (LEADS / EMPLOYEES)
+============================================ */
+#leadPanel,
+#employeePanel {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+/* ============================================
+   LEFT FORM
+============================================ */
+.hq-lead-form {
+  flex: 1;
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hq-lead-form input,
+.hq-lead-form select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: #0b1020;
+  color: white;
+}
+
+.hq-button-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.hq-button-row button {
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.hq-button-row button:hover {
+  filter: brightness(1.1);
+}
+
+/* ============================================
+   RIGHT TABLE
+============================================ */
+.hq-lead-table {
+  flex: 2;
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.hq-lead-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.hq-lead-table th,
+.hq-lead-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  text-align: left;
+}
+
+.hq-lead-table tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   PROFILE SECTION
+============================================ */
+.hq-profile-section {
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  margin-top: 20px;
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-form input {
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--text);
+}
+
+.profile-form button {
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+#saveProfile {
+  background: var(--accent);
+  color: white;
+}
+
+#changePassword {
+  background: var(--border);
+  color: var(--text);
+}
+
+.profile-picture {
+  text-align: center;
+}
+
+.profile-picture .avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  margin-bottom: 10px;
+}
+
+.profile-notes {
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+  color: var(--muted);
+  background: rgba(15, 23, 42, 0.6);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+/* ============================================
+   STATUS BAR
+============================================ */
+.hq-status-bar {
+  background: var(--card);
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+============================================ */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .hq-main {
+    flex-direction: column;
+  }
+
+  #leadPanel,
+  #employeePanel {
+    flex-direction: column;
+  }
+
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Phones */
+@media (max-width: 768px) {
+  .hq-topbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hq-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hq-button-row {
+    flex-direction: column;
+  }
+
+  .profile-picture .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .hq-main {
+    padding: 10px;
+  }
+
+  .hq-lead-form,
+  .hq-lead-table {
+    padding: 14px;
+  }
+
+  .hq-status-bar {
+    font-size: 0.75rem;
+  }
+}
