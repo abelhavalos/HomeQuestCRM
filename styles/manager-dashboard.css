@@ -1,0 +1,271 @@
+/* =========================================
+   GLOBAL RESET + THEME
+========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f5f7fa;
+  color: #333;
+}
+
+.hq-dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* =========================================
+   TOP BAR
+========================================= */
+.hq-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e293b;
+  color: white;
+  padding: 12px 20px;
+}
+
+.hq-logo {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hq-menu button {
+  background: transparent;
+  border: none;
+  color: white;
+  margin: 0 10px;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: 0.2s;
+}
+
+.hq-menu button:hover {
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+}
+
+.hq-exit {
+  background: #ef4444;
+  border: none;
+  padding: 8px 14px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.hq-exit:hover {
+  background: #dc2626;
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+.hq-main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  width: 100%;
+}
+
+/* =========================================
+   PANELS
+========================================= */
+#leadPanel,
+#employeePanel {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+/* =========================================
+   LEFT FORM PANEL
+========================================= */
+.hq-lead-form {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.hq-lead-form h2 {
+  margin-bottom: 15px;
+}
+
+.hq-lead-form input,
+.hq-lead-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.hq-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hq-button-row button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.hq-button-row button:hover {
+  background: #2563eb;
+}
+
+/* =========================================
+   RIGHT TABLE PANEL
+========================================= */
+.hq-lead-table {
+  flex: 2;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.hq-lead-table h2 {
+  margin-bottom: 15px;
+}
+
+.hq-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hq-table th,
+.hq-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.hq-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.hq-table tr:hover {
+  background: #f9fafb;
+}
+
+/* =========================================
+   PROFILE SECTION
+========================================= */
+.hq-profile-section {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-top: 20px;
+}
+
+.profile-layout {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.profile-form {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-form input {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.profile-picture {
+  flex: 1;
+  text-align: center;
+}
+
+.profile-picture .avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  margin-bottom: 10px;
+}
+
+.profile-notes {
+  flex-basis: 100%;
+  margin-top: 10px;
+  color: #555;
+}
+
+/* =========================================
+   STATUS BAR
+========================================= */
+.hq-status-bar {
+  background: #1e293b;
+  color: white;
+  padding: 10px 20px;
+  text-align: left;
+}
+
+/* =========================================
+   RESPONSIVE BREAKPOINTS
+========================================= */
+
+/* Tablets */
+@media (max-width: 992px) {
+  #leadPanel,
+  #employeePanel {
+    flex-direction: column;
+  }
+
+  .hq-lead-form,
+  .hq-lead-table {
+    width: 100%;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  .hq-topbar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .hq-menu button {
+    margin: 0 5px;
+  }
+
+  .hq-button-row button {
+    flex: 100%;
+  }
+
+  .profile-layout {
+    flex-direction: column;
+  }
+
+  .profile-picture .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
