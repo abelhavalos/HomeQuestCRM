@@ -460,3 +460,132 @@ body {
   box-shadow: 0 0 12px rgba(59, 130, 246, 0.45);
   transform: translateY(-1px);
 }
+
+/* ============================================
+   RESPONSIVE FIXES — HOMEQUEST DASHBOARD
+============================================ */
+
+/* Default: Desktop (your current layout) */
+
+/* ============================================
+   TABLETS (max-width: 1024px)
+============================================ */
+@media (max-width: 1024px) {
+
+  .hq-main {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .hq-panel {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .hq-form {
+    max-width: 100%;
+  }
+
+  .hq-table-container {
+    width: 100%;
+  }
+
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   PHONES (max-width: 768px)
+============================================ */
+@media (max-width: 768px) {
+
+  .hq-topbar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .hq-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hq-main {
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px;
+  }
+
+  .hq-panel {
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px;
+  }
+
+  /* Form becomes full width */
+  .hq-form {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  /* Table becomes full width */
+  .hq-table-container {
+    width: 100%;
+  }
+
+  /* Forgot panel full width */
+  .hq-forgot-panel {
+    width: 100%;
+  }
+
+  /* Inputs/buttons full width */
+  #forgotEmail,
+  #sendResetRequest {
+    width: 100%;
+  }
+
+  /* Profile layout stacks */
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-picture .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ============================================
+   SMALL PHONES (max-width: 480px)
+============================================ */
+@media (max-width: 480px) {
+
+  .hq-topbar {
+    padding: 10px;
+  }
+
+  .hq-main {
+    padding: 10px;
+  }
+
+  .hq-panel {
+    padding: 10px;
+  }
+
+  .hq-form,
+  .hq-table-container {
+    padding: 14px;
+  }
+
+  .hq-nav-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .hq-status-bar {
+    font-size: 0.75rem;
+    padding: 8px 12px;
+  }
+}
