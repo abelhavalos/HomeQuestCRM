@@ -317,37 +317,25 @@ body {
   padding: 20px;  
 }
 
+/* ============================================
+   PROFILE SECTION
+============================================ */
 .hidden { display: none; }
-
-/* ============================
-   EMPLOYEE PROFILE SECTION
-   ============================ */
-
 .hq-profile-section {
-  background: var(--hq-card);
+  background: var(--card);
   padding: 20px;
-  border-radius: var(--hq-radius-lg);
-  border: 1px solid var(--hq-border);
-  box-shadow: var(--hq-shadow-soft);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
   margin-top: 20px;
 }
 
-.hq-profile-section h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 1.4rem;
-  color: var(--hq-text);
-}
-
-/* Layout grid */
 .profile-layout {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: auto auto;
   gap: 20px;
 }
 
-/* Form styling */
 .profile-form {
   display: flex;
   flex-direction: column;
@@ -355,42 +343,32 @@ body {
 }
 
 .profile-form input {
-  padding: 10px 12px;
-  border-radius: var(--hq-radius-md);
-  border: 1px solid var(--hq-border);
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
   background: rgba(15, 23, 42, 0.85);
-  color: var(--hq-text);
-  font-size: 0.9rem;
+  color: var(--text);
 }
 
 .profile-form button {
-  padding: 10px 12px;
-  border-radius: var(--hq-radius-md);
+  padding: 10px;
+  border-radius: var(--radius-md);
   border: none;
   cursor: pointer;
   font-weight: 600;
-  transition: var(--hq-transition);
+  transition: var(--transition);
 }
 
 #saveProfile {
-  background: var(--hq-accent);
+  background: var(--accent);
   color: white;
 }
 
-#saveProfile:hover {
-  filter: brightness(1.1);
-}
-
 #changePassword {
-  background: var(--hq-border);
-  color: var(--hq-text);
+  background: var(--border);
+  color: var(--text);
 }
 
-#changePassword:hover {
-  background: var(--hq-muted);
-}
-
-/* Picture area */
 .profile-picture {
   text-align: center;
 }
@@ -400,28 +378,18 @@ body {
   height: 120px;
   border-radius: 999px;
   object-fit: cover;
-  border: 3px solid var(--hq-accent);
+  border: 3px solid var(--accent);
   margin-bottom: 10px;
 }
 
-.profile-picture input[type="file"] {
-  font-size: 0.8rem;
-  color: var(--hq-muted);
-}
-
-/* Notes */
 .profile-notes {
+  grid-column: 1 / -1;
   font-size: 0.9rem;
-  color: var(--hq-muted);
+  color: var(--muted);
   background: rgba(15, 23, 42, 0.6);
   padding: 12px;
-  border-radius: var(--hq-radius-md);
-  border: 1px solid var(--hq-border);
-}
-
-/* Hidden utility */
-.hidden {
-  display: none !important;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
 }
 
 /* ============================
@@ -461,6 +429,16 @@ body {
   transform: translateY(-1px);
 }
 
+/* ============================================
+   STATUS BAR
+============================================ */
+.hq-status-bar {
+  background: var(--card);
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
 /* ============================================
    RESPONSIVE FIXES — HOMEQUEST DASHBOARD
 ============================================ */

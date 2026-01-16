@@ -1,0 +1,204 @@
+/* ------------------------------
+   Base Layout
+------------------------------ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  background: #f5f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.hq-wrapper {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.hq-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* ------------------------------
+   Branding
+------------------------------ */
+.hq-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.hq-logo-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #1a73e8;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.hq-brand-text h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.hq-brand-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* ------------------------------
+   Tabs
+------------------------------ */
+.hq-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.hq-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  background: #f0f2f5;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.hq-tab.active {
+  background: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+}
+
+/* ------------------------------
+   Form Fields
+------------------------------ */
+.hq-field {
+  margin-bottom: 18px;
+}
+
+.hq-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.hq-field input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  font-size: 15px;
+}
+
+/* ------------------------------
+   Meta Row
+------------------------------ */
+.hq-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hq-forgot-link {
+  font-size: 14px;
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+/* ------------------------------
+   Buttons
+------------------------------ */
+.hq-primary-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.hq-primary-btn:hover {
+  background: #1664c4;
+}
+
+/* ------------------------------
+   Footer
+------------------------------ */
+.hq-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+}
+
+/* ------------------------------
+   Messages
+------------------------------ */
+.hq-error {
+  color: #d93025;
+  font-size: 14px;
+}
+
+.hq-success {
+  color: #188038;
+  font-size: 14px;
+}
+
+/* ------------------------------
+   RESPONSIVE BREAKPOINTS
+------------------------------ */
+
+/* 📱 Phones (default styles already optimized) */
+
+/* 📲 Tablets */
+@media (min-width: 600px) {
+  .hq-card {
+    max-width: 480px;
+    padding: 40px;
+  }
+
+  .hq-brand-text h1 {
+    font-size: 24px;
+  }
+}
+
+/* 🖥️ Desktops */
+@media (min-width: 900px) {
+  body {
+    background: linear-gradient(135deg, #e8eef7, #f5f7fa);
+  }
+
+  .hq-card {
+    max-width: 500px;
+    padding: 48px;
+  }
+
+  .hq-brand-text h1 {
+    font-size: 26px;
+  }
+}

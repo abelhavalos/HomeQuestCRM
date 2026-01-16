@@ -191,6 +191,7 @@ body {
 /* ============================================
    PROFILE SECTION
 ============================================ */
+.hidden { display: none; }
 .hq-profile-section {
   background: var(--card);
   padding: 20px;
